@@ -26,8 +26,10 @@ const User = sequelize.define('User', {
 	tableName: "users"
 });
 User.beforeCreate(async (user) => {
-	const hashedPassword = await bcrypt.hash(user.password, 10);
-	user.password = hashedPassword;
+	if (user.password) {
+		const hashedPassword = await bcrypt.hash(user.password, 10);
+		user.password = hashedPassword;
+	}
 });
 
 User.beforeUpdate(async (user) => {

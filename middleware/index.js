@@ -21,7 +21,7 @@ const checkDuplicateEmail = async (req, res, next) => {
 
 // verify token
 const verifyToken = async (req, res, next) => {
-	let token = req.headers['x-access-token']
+	let token = req.headers['authorization'].split(' ')[1]
 	if (!token) {
 		return res.status(403).json({
 			message: 'No token provided!'
@@ -40,7 +40,7 @@ const verifyToken = async (req, res, next) => {
 
 // is post belong to user or not
 const isPostBelongsToUser = async (req, res, next) => {
-	let token = req.headers['x-access-token']
+	let token = req.headers['authorization'].split(' ')[1]
 	if (!token) {
 		return res.status(403).json({
 			message: 'No token provided!'

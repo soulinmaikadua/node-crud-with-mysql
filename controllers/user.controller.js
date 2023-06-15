@@ -37,10 +37,10 @@ exports.deleteUser = async (req, res) => {
 	try {
 		const payload = req.payload;
 		if (parseInt(payload.id) !== parseInt(req.params.id)) {
-			return res.status(403).json({ message: "You can not update other user" })
+			return res.status(403).json({ message: "You can not delete other user" })
 		}
 		await User.update(req.body, { where: { id: req.params.id } })
-		res.status(200).json({ message: 'Updated successfully' })
+		res.status(200).json({ message: 'Deleted successfully' })
 	} catch (err) {
 		res.status(500).json({ message: err.message })
 	}

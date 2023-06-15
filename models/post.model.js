@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.config');
-
+const User = require('./user.model')
 const Post = sequelize.define('Post', {
 	title: {
 		type: DataTypes.STRING,
@@ -8,6 +8,18 @@ const Post = sequelize.define('Post', {
 	description: {
 		type: DataTypes.STRING,
 	},
+	published: {
+		type: DataTypes.BOOLEAN,
+		defaultValue: false,
+	},
+	user: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		references: {
+			model: "users",
+			key: 'id'
+		}
+	}
 }, {
 	timestamps: true,
 	createdAt: 'created_at',
@@ -15,5 +27,6 @@ const Post = sequelize.define('Post', {
 	underscored: true,
 	tableName: "posts"
 });
-
+// Define the association
+// Post.belongsTo(User, { foreignKey: 'user' });
 module.exports = Post;
