@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user.model')
-const Post = require('../models/post.model')
 const config = require('../config/auth.config')
 // check duplicate email address
 const checkDuplicateEmail = async (req, res, next) => {
@@ -38,35 +37,8 @@ const verifyToken = async (req, res, next) => {
 	}
 }
 
-// is post belong to user or not
-const isPostBelongsToUser = async (req, res, next) => {
-	let token = req.headers['authorization'].split(' ')[1]
-	if (!token) {
-		return res.status(403).json({
-			message: 'No token provided!'
-		})
-	}
-	try {
-		// verify token
-		const payload = await jwt.verify(token, config.secret)
-		// fetch and check is a post belong to the user or not
-		const post = await Post.findOne({ where: { id: req.params.id, user: payload.id } })
-		if (!post) {
-			return res.status(403).json({
-				message: `You're not belong to the post`
-			})
-		}
-		req.payload = payload
-		next()
-	} catch (err) {
-		return res.status(403).json({
-			message: err.message
-		})
-	}
-}
 
 module.exports = {
 	checkDuplicateEmail,
 	verifyToken,
-	isPostBelongsToUser
 }
