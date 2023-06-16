@@ -4,6 +4,7 @@ const Post = require('../models/post.model')
 
 exports.createPost = async (req, res) => {
 	try {
+		// assign new data to add user id from token
 		const data = {
 			...req.body,
 			user: req.payload.id,
